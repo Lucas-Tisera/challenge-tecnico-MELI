@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 <br />
 <div align="center">
-    <img src="cliente/assets/Logo_ML.png" alt="Logo" width="80" height="80">
+    <img src="cliente/src/assets/Logo_ML.png" alt="Logo" width="80" height="80">
 <h3 align="center">Challenge Tecnico MELI</h3>
 
   <p align="center">
