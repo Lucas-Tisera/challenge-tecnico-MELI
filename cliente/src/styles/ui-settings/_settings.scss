@@ -1,0 +1,24 @@
+//DEFINO LOS COLORES PRINCIPALES DE MI APLICACION
+$main_yellow: #FFE600;
+$dark: #333333;
+$semi_dark: #666666;
+$grey: #999999;
+$background: #EEEEEE;
+$blue: #3483FA;
+
+$red_padding: 16px;
+$green_margin: 32px;
+
+// Path: cliente/src/styles/base/_base.scss
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: $dark;
+}
+body {
+  background-color: $grey;
+} 
+
