@@ -2,7 +2,7 @@
 $main_yellow: #FFE600;
 $dark: #333333;
 $semi_dark: #666666;
-$grey: #999999;
+$gray: #999999;
 $background: #EEEEEE;
 $blue: #3483FA;
 
@@ -17,8 +17,9 @@ $green_margin: 32px;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     color: $dark;
+    text-decoration: none;
 }
 body {
-  background-color: $grey;
+  background-color: $background
 } 
 

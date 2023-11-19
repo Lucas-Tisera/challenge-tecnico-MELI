@@ -1,0 +1,96 @@
+import { useCallback, useContext, useEffect } from "react"
+import { ItemsContext } from "../context/ItemsContext"
+
+//useFetchItems es un hook que se encarga de hacer la llamada a la API para obtener los items
+//Recibe como parametro el query que se quiere buscar
+//Devuelve un objeto con la informacion de los items
+const useFetchItems = async (query) => {
+    const { setData, setLoading } = useContext(ItemsContext)
+    //Si no se utiliza useCallback, filtered se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
+    const filtered = useCallback(() => {
+        //Se llama a la funcion fetchItems que se encarga de hacer la llamada a la API
+        fetchItems(query)
+        .then((data) => {
+            if (data.error) {
+                throw new Error(data.message)
+            }
+            setData(data)
+        }).catch((error) => {
+            setData({error: true, message: error.message})
+        }).finally(() => {
+            setLoading(false)
+        })
+
+    }, [query, setData, setLoading])
+
+    useEffect(() => {
+        setLoading(true)
+        filtered()
+    }, [query, setLoading, filtered])
+
+}
+
+//fetchItems es una funcion que se encarga de hacer la llamada a la API para obtener los items
+async function fetchItems (query) {
+    try {
+        const response = await fetch(`http://localhost:3001/api/items?q=${query}`)
+        const data = await response.json()
+        if (data.items.length > 0) {
+            return {error: false,  ...data}
+        } else {
+            return { error: true , message: "No se encontraron resultados"}
+        }
+    } catch (error) {
+        return { error: true , message: "No se encontraron resultados"}
+    }
+}
+
+
+//useFetchItemId es un hook que se encarga de hacer la llamada a la API para obtener el detalle de un item
+//Recibe como parametro el id del item que se quiere obtener
+//Devuelve un objeto con la informacion del item
+//Si no se encuentra el item devuelve un objeto con error en true y un mensaje de error
+export const useFetchItemId = async (id) => {
+    const { setItem, setLoading } = useContext(ItemsContext)
+
+    //Si no se utiliza useCallback, getItem se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
+    const getItem = useCallback(() => {
+        //Se llama a la funcion fetchItemById que se encarga de hacer la llamada a la API
+        fetchItemById(id)
+        .then((data) => {
+            if (data.error) {
+                throw new Error(data.message)
+            }
+            setItem(data)
+        }).catch((error) => {
+            setItem({error: true, message: error.message})
+        }).finally(() => {
+            setLoading(false)
+        })
+
+    }, [id, setItem, setLoading])
+
+    useEffect(() => {
+        setLoading(true)
+        getItem()
+    }, [id, setLoading, getItem])
+
+}
+
+//fetchItemById es una funcion que se encarga de hacer la llamada a la API para obtener el detalle de un item
+//Recibe como parametro el id del item que se quiere obtener
+async function fetchItemById (id) {
+    try {
+        const response = await fetch(`http://localhost:3001/api/items/${id}`)
+        const data = await response.json()
+        if (data.item) {
+            return {error: false,  ...data.item}
+        } else {
+            return { error: true , message: "No se encontraron resultados"}
+        }
+    } catch (error) {
+        return { error: true , message: "No se encontraron resultados"}
+    }
+}
+
+export default useFetchItems

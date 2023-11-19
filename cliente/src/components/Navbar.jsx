@@ -6,12 +6,12 @@ import logoML from '../assets/Logo_ML.png'
 const Navbar = () => {
   return (
   <nav className='navbar_mainContainer' role='navigation' aria-label='Main Navigation'>
-    <div className='navbar_menu'>
-    <div className='navbar_brand'>
+    <ul className='navbar_menu'>
+    <li className='navbar_brand'>
       <img src={logoML} alt='Ironhack Logo' />
-    </div>
+    </li>
     <SearchInput />
-    </div>
+    </ul>
   </nav>
   )
 }

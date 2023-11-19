@@ -3,7 +3,7 @@ const { Router } = require('express');
 const { NAME, LASTNAME } = process.env;
 
 const {
-	getItemsList, getItemsDetail,
+	getItemsList, getItemsDetail, getItemCategory
 } = require('../controllers/items'); 
 
 const router = Router();
@@ -21,11 +21,10 @@ router.get('/', async (req, res, next) => {
 
         //Almaceno la respuesta de la API en una constante
         const response = await getItemsList(query);
-    
+        
         //FORMATO DE RESPUESTA:
-
         //Filtro por categorias y las almaceno en un array
-        const categories = response.data.filters.find(filter => filter.id === 'category').values[0].path_from_root.map(category => category.name);
+        const categories = response.data.filters.length > 0 ? response.data.filters.find(filter => filter.id === 'category').values[0].path_from_root.map(category => category.name) : [];
         
         //Formateo la respuesta de la API para que se ajuste a lo que pide el challenge
         const items = response.data.results.map(result => ({
@@ -39,6 +38,8 @@ router.get('/', async (req, res, next) => {
           picture: result.thumbnail,
           condition: result.condition,
           free_shipping: result.shipping.free_shipping,
+          //Decidí mostrar la direccion para poder moldear el FrontEnd a los requerimientos del challenge
+          address: result.seller_address.state.name,
         }));
         
         //Formato final de la respuesta
@@ -63,6 +64,9 @@ router.get('/:id', async (req, res) => {
         //Desestructuro la respuesta de la API en dos constantes para poder trabajarlas por separado
         const {itemResponse, descriptionResponse} = await getItemsDetail(itemId);
 
+        //Decidí implementar el servicio para obtener la categoria del item
+        const categoryResponse = await getItemCategory(itemResponse.data.category_id);
+
         //FORMATO DE RESPUESTA:
         //Formateo la respuesta de la API para que se ajuste a lo que pide el challenge
         const item = {
@@ -76,9 +80,10 @@ router.get('/:id', async (req, res) => {
             picture: itemResponse.data.pictures.length > 0 ? itemResponse.data.pictures[0].url : '',
             condition: itemResponse.data.condition,
             free_shipping: itemResponse.data.shipping.free_shipping,
-            sold_quantity: itemResponse.data.sold_quantity,
+            sold_quantity: itemResponse.data.initial_quantity,
             description: descriptionResponse.data.plain_text,
-        };
+            category: categoryResponse.data.path_from_root.map(category => category.name),
+          };
 
         //Formato final de la respuesta
         const resultFormat = {

@@ -17,7 +17,14 @@ const getItemsDetail = async (itemId) => {
     return { itemResponse, descriptionResponse };
 }
 
+//Funcion para obtener la categoria de un item
+//En este caso decidí implementarlo ya que la API proporcionada en el challenge unicamente me devuelve el id de la categoria
+const getItemCategory = async (categoryId) => {
+    return await axios.get(`https://api.mercadolibre.com/categories/${categoryId}`);
+}
+
 module.exports = {
     getItemsList,
-    getItemsDetail
+    getItemsDetail,
+    getItemCategory
 };

@@ -1,0 +1,13 @@
+.main_layout{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.main_layout_screen_container{
+    align-self: center;
+    width: 100%;
+    max-width: 1200px;
+}

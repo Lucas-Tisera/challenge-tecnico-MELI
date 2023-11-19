@@ -4,8 +4,8 @@ const { json } = require('express');
 
 // configuro el cors para que acepte peticiones de localhost:3001
 const cors = {
-	origin: [ 'http://localhost:3001'],
-	default: 'http://localhost:3001',
+	origin: [ 'http://localhost:3000'],
+	default: 'http://localhost:3000',
 };
 
 const server = express();
