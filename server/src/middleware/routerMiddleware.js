@@ -2,7 +2,8 @@ const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const rewritePath = {
-    '^/api': ''
+    //eliminar desde el directorio items en adelante
+    '^/items': '',
 };
 
 const proxyMiddleware = createProxyMiddleware({
