@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect } from "react"
 import { ItemsContext } from "../context/ItemsContext"
-
+const { REACT_APP_BASEURL } = process.env;
 //useFetchItems es un hook que se encarga de hacer la llamada a la API para obtener los items
 //Recibe como parametro el query que se quiere buscar
 //Devuelve un objeto con la informacion de los items
@@ -33,7 +33,7 @@ const useFetchItems = async (query) => {
 //fetchItems es una funcion que se encarga de hacer la llamada a la API para obtener los items
 async function fetchItems (query) {
     try {
-        const response = await fetch(`http://localhost:3001/api/items?q=${query}`)
+        const response = await fetch(`${REACT_APP_BASEURL}/?q=${query}`)
         const data = await response.json()
         if (data.items.length > 0) {
             return {error: false,  ...data}
@@ -81,7 +81,7 @@ export const useFetchItemId = async (id) => {
 //Recibe como parametro el id del item que se quiere obtener
 async function fetchItemById (id) {
     try {
-        const response = await fetch(`http://localhost:3001/api/items/${id}`)
+        const response = await fetch(`${REACT_APP_BASEURL}/?/${id}`)
         const data = await response.json()
         if (data.item) {
             return {error: false,  ...data.item}
