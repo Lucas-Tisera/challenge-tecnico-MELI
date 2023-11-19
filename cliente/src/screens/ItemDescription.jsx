@@ -27,7 +27,7 @@ export const ItemDescription = () => {
         <CategoriesLayout categoryList={item ? item.category: []}>
           <ProductLayout>
               <>
-                <div className='item_breadcrumb'>
+                <div className='item_container'>
                 <img src={item.picture} className='item_image' alt={item.title} />
                 <div className='item_data'>
                   <p className='item_condition'>{item.condition} - {item.sold_quantity} vendidos</p>
