@@ -11,6 +11,7 @@ import { MainLayout } from '../layout/MainLayout'
 export const ListScreen = () => {
     const {filter, data, loading} = useContext(ItemsContext)
     useFetchItems(filter)
+
     return (
         <MainLayout>
             {/* Componnete para mostrar un spinner al hacer fetch de datos */}

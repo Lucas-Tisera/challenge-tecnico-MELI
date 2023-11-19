@@ -4,30 +4,32 @@ const { REACT_APP_BASEURL } = process.env;
 //useFetchItems es un hook que se encarga de hacer la llamada a la API para obtener los items
 //Recibe como parametro el query que se quiere buscar
 //Devuelve un objeto con la informacion de los items
-const useFetchItems = async (query) => {
+const useFetchItems = async (quer) => {
     const { setData, setLoading } = useContext(ItemsContext)
+    const querySearch = new URLSearchParams(window.location.search)
+
+    //Si no se especifica un query se obtiene el query de la url
+    const query = quer ? quer : querySearch.get("q")
+    
     //Si no se utiliza useCallback, filtered se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
     const filtered = useCallback(() => {
         //Se llama a la funcion fetchItems que se encarga de hacer la llamada a la API
         fetchItems(query)
         .then((data) => {
-            if (data.error) {
-                throw new Error(data.message)
-            }
-            setData(data)
+            setData(data ? data : {error: true, message: "No se encontraron resultados"})
         }).catch((error) => {
             setData({error: true, message: error.message})
         }).finally(() => {
             setLoading(false)
         })
-
+        
     }, [query, setData, setLoading])
-
+    
     useEffect(() => {
         setLoading(true)
         filtered()
     }, [query, setLoading, filtered])
-
+    
 }
 
 //fetchItems es una funcion que se encarga de hacer la llamada a la API para obtener los items
@@ -35,9 +37,11 @@ async function fetchItems (query) {
     try {
         const response = await fetch(`${REACT_APP_BASEURL}/?q=${query}`)
         const data = await response.json()
+        console.log(data)
         if (data.items.length > 0) {
             return {error: false,  ...data}
         } else {
+            console.log("error")
             return { error: true , message: "No se encontraron resultados"}
         }
     } catch (error) {
