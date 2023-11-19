@@ -12,3 +12,9 @@
 .categories_last{
     font-weight: bold;
 }
+
+@media screen and (max-width: $desktop_max_width) {
+    .categories_container{
+        margin: 0px $red_padding;
+    }
+}

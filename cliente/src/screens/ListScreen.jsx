@@ -17,7 +17,7 @@ export const ListScreen = () => {
             <Spinner loading={loading}/>
 
             {/* Valido el estado de la respuesta y loading es true */}
-            {!loading && data ? data.error ? <p>{data.message}</p> 
+            {!loading && data ? data.error ? <title className='list_screen_error_container'><h1 className='list_screen_error_message'>{data.message}</h1></title> 
             :
             <CategoriesLayout>
                 {/* Renderizo los primeros 4 items del listado */}

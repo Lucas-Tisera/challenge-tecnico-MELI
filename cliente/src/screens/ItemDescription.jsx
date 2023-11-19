@@ -6,6 +6,8 @@ import { ProductLayout } from '../layout/ProductLayout'
 import { useFetchItemId } from '../hooks/useFetch'
 import { ItemsContext } from '../context/ItemsContext'
 import { Spinner } from '../components/Spinner'
+import shipping from '../assets/ic_shipping.png'
+
 
 //Screen destinada a mostrar la descripcion de un producto
 export const ItemDescription = () => {
@@ -30,7 +32,10 @@ export const ItemDescription = () => {
                 <div className='item_data'>
                   <p className='item_condition'>{item.condition} - {item.sold_quantity} vendidos</p>
                   <p className='item_title'>{item.title}</p>
-                  <p className='item_price'>$ {formatedAmount}</p>
+                  <div className='item_info_priceShipping'>
+                    <p className='item_price'>$ {formatedAmount}</p>
+                    {item.free_shipping && <><img src={shipping} alt="Free Shipping" className='item_shipping_image' /><p className='item_shipping_text'>Envio gratis!</p></>}
+                  </div>
                   <button className='item_button'>Comprar</button>
                 </div>
                 </div>

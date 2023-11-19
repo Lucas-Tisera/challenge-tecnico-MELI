@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
             decimals: 2,
           },
           picture: result.thumbnail,
-          condition: result.condition,
+          condition: result.condition === 'new' ? 'Nuevo' : 'Usado',
           free_shipping: result.shipping.free_shipping,
           //Decidí mostrar la direccion para poder moldear el FrontEnd a los requerimientos del challenge
           address: result.seller_address.state.name,
@@ -78,7 +78,7 @@ router.get('/:id', async (req, res) => {
             decimals: 2
             },
             picture: itemResponse.data.pictures.length > 0 ? itemResponse.data.pictures[0].url : '',
-            condition: itemResponse.data.condition,
+            condition: itemResponse.data.condition === 'new' ? 'Nuevo' : 'Usado',
             free_shipping: itemResponse.data.shipping.free_shipping,
             sold_quantity: itemResponse.data.initial_quantity,
             description: descriptionResponse.data.plain_text,

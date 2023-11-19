@@ -6,8 +6,13 @@ $gray: #999999;
 $background: #EEEEEE;
 $blue: #3483FA;
 
+//PADDINGS Y MARGINS
 $red_padding: 16px;
 $green_margin: 32px;
+
+//DEVICE SIZE
+$mobile_max_width: 650px;
+$desktop_max_width: 1024px;
 
 // Path: cliente/src/styles/base/_base.scss
 *{

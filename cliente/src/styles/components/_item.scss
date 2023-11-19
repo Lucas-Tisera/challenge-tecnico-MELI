@@ -54,3 +54,30 @@
     width: 100%;
     background-color: white;
 }
+@media screen and (max-width: $mobile_max_width){
+    .product_main{
+        width: 100%;
+    }
+    .product_image{
+        width: 90px;
+        height: 90px;
+        align-self: center;
+    }
+    .product_info{
+        width: 100%;
+        gap: 10px;
+        .product_info_priceShipping{
+            align-items: center;
+            .product_info_price{
+                font-size: 18px;
+                align-self: center;
+            }
+        }
+        .product_info_title{
+            font-size: 14px;
+        }
+        .product_info_condition{
+            font-size: 12px;
+        }
+    }
+}

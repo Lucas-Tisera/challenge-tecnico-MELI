@@ -14,3 +14,15 @@
     max-width: 1200px;
     list-style-type: none
 }
+@media screen and (max-width: $mobile_max_width){
+    .navbar_mainContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: $main_yellow;
+        top: 0;
+        left: 0;
+        z-index: 100;
+    }
+}
