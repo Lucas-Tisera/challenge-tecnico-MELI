@@ -4,7 +4,7 @@ const { json } = require('express');
 
 // configuro el cors para que acepte peticiones de localhost:3001
 const cors = {
-	origin: [ 'http://localhost:3000', "https://challenge-meli-client.onrender.com"],
+	origin: [ 'http://localhost:3000', "https://challenge-meli-client.onrender.com","https://challenge-meli-client.onrender.com/items", "https://challenge-meli-client.onrender.com/items/:id"],
 	default: 'http://localhost:3000',
 };
 
