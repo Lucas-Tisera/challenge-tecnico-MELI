@@ -81,7 +81,7 @@ export const useFetchItemId = async (id) => {
 //Recibe como parametro el id del item que se quiere obtener
 async function fetchItemById (id) {
     try {
-        const response = await fetch(`${REACT_APP_BASEURL}/?/${id}`)
+        const response = await fetch(`${REACT_APP_BASEURL}/${id}`)
         const data = await response.json()
         if (data.item) {
             return {error: false,  ...data.item}
