@@ -30,17 +30,17 @@ export const ItemDescription = () => {
                 <div className='item_container'>
                 <img src={item.picture} className='item_image' alt={item.title} />
                 <div className='item_data'>
-                  <p className='item_condition'>{item.condition} - {item.sold_quantity} vendidos</p>
-                  <p className='item_title'>{item.title}</p>
+                  <span className='item_condition'>{item.condition} - {item.sold_quantity} vendidos</span>
+                  <h1 className='item_title'>{item.title}</h1>
                   <div className='item_info_priceShipping'>
                     <p className='item_price'>$ {formatedAmount}</p>
-                    {item.free_shipping && <><img src={shipping} alt="Free Shipping" className='item_shipping_image' /><p className='item_shipping_text'>Envio gratis!</p></>}
+                    {item.free_shipping && <><img src={shipping} alt="Free Shipping" className='item_shipping_image' /><b className='item_shipping_text'>Envio gratis!</b></>}
                   </div>
                   <button className='item_button'>Comprar</button>
                 </div>
                 </div>
                 <div className='item_description'>
-                  <p className='item_description_title'>Descripción del producto</p>
+                  <h2 className='item_description_title'>Descripción del producto</h2>
                   <p className='item_description_text'>{item.description}</p>
                 </div>
               </>
