@@ -1,14 +1,12 @@
-import React, { useContext } from 'react'
-import { ItemsContext } from '../context/ItemsContext'
+import React from 'react'
 import { Categories } from '../components/Categories'
 
 //Layout para renderizar las categorias y los componentes children
 export const CategoriesLayout = ({categoryList, children}) => {
-    const {data} = useContext(ItemsContext)
+    console.log(categoryList)
     return (
         <>
-            {
-            <Categories categories={categoryList ? categoryList : data.categories}/>}
+            <Categories categories={categoryList}/>
             {children}
         </>
     )

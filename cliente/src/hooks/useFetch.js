@@ -1,100 +1,79 @@
-import { useCallback, useContext, useEffect } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { ItemsContext } from "../context/ItemsContext"
-const { REACT_APP_BASEURL } = process.env;
-//useFetchItems es un hook que se encarga de hacer la llamada a la API para obtener los items
+
+//useFetch es un hook que se encarga de hacer la llamada a la API para obtener los items e informacion de los mismos
 //Recibe como parametro el query que se quiere buscar
 //Devuelve un objeto con la informacion de los items
-const useFetchItems = async (quer) => {
-    const { setData, setLoading } = useContext(ItemsContext)
-    const querySearch = new URLSearchParams(window.location.search)
+//Query es el parametro que se utiliza para hacer la llamada a la API
+//list es el parametro que se utiliza para definir que accion se va a realizar
+const useFetch = (query, list = true) => {
+    const { setData } = useContext(ItemsContext)
 
-    //Si no se especifica un query se obtiene el query de la url
-    const query = quer ? quer : querySearch.get("q")
-    
-    //Si no se utiliza useCallback, filtered se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
-    const filtered = useCallback(() => {
-        //Se llama a la funcion fetchItems que se encarga de hacer la llamada a la API
-        fetchItems(query)
-        .then((data) => {
-            setData(data ? data : {error: true, message: "No se encontraron resultados"})
-        }).catch((error) => {
-            setData({error: true, message: error.message})
-        }).finally(() => {
-            setLoading(false)
-        })
-        
-    }, [query, setData, setLoading])
-    
-    useEffect(() => {
-        setLoading(true)
-        filtered()
-    }, [query, setLoading, filtered])
-    
-}
+    //Se utiliza el hook useState para manejar el estado de la llamada a la API
+    //Se inicializa el estado con un array vacio, loading en true y error en null
+    const [dataState, setDataState] = useState({
+        data: [],
+        loading: true,
+        error: null
+    })
 
-//fetchItems es una funcion que se encarga de hacer la llamada a la API para obtener los items
-async function fetchItems (query) {
-    try {
-        const response = await fetch(`${REACT_APP_BASEURL}/?q=${query}`)
-        const data = await response.json()
-        console.log(data)
-        if (data.items.length > 0) {
-            return {error: false,  ...data}
-        } else {
-            console.log("error")
-            return { error: true , message: "No se encontraron resultados"}
-        }
-    } catch (error) {
-        return { error: true , message: "No se encontraron resultados"}
-    }
-}
+    //Si no se utiliza useCallback, handleFetch se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
+    const handleFetch = useCallback(async () => {
+        try {
+            const response = await fetch(query);
+            const dataApi = await response.json();
+            console.log(dataApi)
+            //Si la respuesta de la API contiene items se setea el estado con los items
+            //Si no se encontraron resultados se setea el estado con un mensaje de error
+            if ( list && dataApi && dataApi.items.length > 0) {
 
-
-//useFetchItemId es un hook que se encarga de hacer la llamada a la API para obtener el detalle de un item
-//Recibe como parametro el id del item que se quiere obtener
-//Devuelve un objeto con la informacion del item
-//Si no se encuentra el item devuelve un objeto con error en true y un mensaje de error
-export const useFetchItemId = async (id) => {
-    const { setItem, setLoading } = useContext(ItemsContext)
-
-    //Si no se utiliza useCallback, getItem se crea cada vez que se renderiza el componente y se vuelve a ejecutar el useEffect
-    const getItem = useCallback(() => {
-        //Se llama a la funcion fetchItemById que se encarga de hacer la llamada a la API
-        fetchItemById(id)
-        .then((data) => {
-            if (data.error) {
-                throw new Error(data.message)
+                //Se setea el estado de los items en el contexto para poder acceder a la informacion desde cualquier componente
+                setData(dataApi);
+                setDataState( prev => ({
+                    ...prev,
+                    loading: false,
+                    data: dataApi
+                }));
+            } else {
+                dataApi ?
+                //Se setea el estado de los items en el contexto para poder acceder a la informacion desde cualquier componente
+                setDataState( prev => ({
+                    ...prev,
+                    loading: false,
+                    data: dataApi.item
+                }))
+                : 
+                setDataState( prev => ({
+                    ...prev,
+                    loading: false,
+                    error: "No se encontraron resultados"
+                }))
             }
-            setItem(data)
-        }).catch((error) => {
-            setItem({error: true, message: error.message})
-        }).finally(() => {
-            setLoading(false)
-        })
-
-    }, [id, setItem, setLoading])
-
-    useEffect(() => {
-        setLoading(true)
-        getItem()
-    }, [id, setLoading, getItem])
-
-}
-
-//fetchItemById es una funcion que se encarga de hacer la llamada a la API para obtener el detalle de un item
-//Recibe como parametro el id del item que se quiere obtener
-async function fetchItemById (id) {
-    try {
-        const response = await fetch(`${REACT_APP_BASEURL}/${id}`)
-        const data = await response.json()
-        if (data.item) {
-            return {error: false,  ...data.item}
-        } else {
-            return { error: true , message: "No se encontraron resultados"}
+        } catch (error) {
+            console.log(error)
+            //Si hubo un error al consumir el servicio se setea el estado con un mensaje de error
+            setDataState( prev => ({
+                ...prev,
+                loading: false,
+                error: "Error al consumir servicio"
+            }));
         }
-    } catch (error) {
-        return { error: true , message: "No se encontraron resultados"}
-    }
+      },
+        [query, setData, list]
+    )
+
+    //Se utiliza el hook useEffect para ejecutar la funcion handleFetch cada vez que se cambia el filtro
+    useEffect(() => {
+        setDataState({
+            data: [],
+            loading: true,
+            error: null
+        })
+        handleFetch();
+    }, [query, handleFetch])
+
+    return { ...dataState}
+    
 }
 
-export default useFetchItems
+export default useFetch
