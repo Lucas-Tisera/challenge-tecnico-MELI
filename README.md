@@ -74,11 +74,16 @@ Para obtener una copia local en funcionamiento, siga estos sencillos pasos de ej
     npm install
     ```
 3. Crear un archivo .env en la carpeta raíz del servidor con la siguiente información
+   Para el servidor:
     ```sh
       PORT= el puerto que desee usar (ej: 3001)
     ```
+    Para el cliente:
+   ```sh
+      REACT_APP_BASEURL= el endpoint del servidor (ej: http://localhost:3001/api/items)
+    ```
 
-4. Iniciar el servidor y el cliente
+5. Iniciar el servidor y el cliente
    ```sh
     npm start
     ```
