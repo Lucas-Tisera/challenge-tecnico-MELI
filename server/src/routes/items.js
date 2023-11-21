@@ -1,6 +1,5 @@
 require('dotenv').config();
 const { Router } = require('express');
-const { NAME, LASTNAME } = process.env;
 
 const {
 	getItemsList, getItemsDetail, getItemCategory
@@ -10,8 +9,8 @@ const router = Router();
 
 //Configuro la informacion del autor
 const author = {
-    name: NAME,
-    lastname: LASTNAME,
+    name: "Lucas",
+    lastname: "Tisera",
 };
 
 router.get('/', async (req, res, next) => {

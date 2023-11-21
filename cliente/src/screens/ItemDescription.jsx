@@ -15,7 +15,7 @@ export const ItemDescription = () => {
   const id = location.pathname.split('/')[2]
   // useFetchItemId es un hook que se encarga de hacer el fetch de la descripcion del producto
   // recibe como parametro el id del producto que se encuentra en la url
-  const {data, loading, error} = useFetch(`${REACT_APP_BASEURL}/${id}`, false)
+  const {data, loading, error} = useFetch(`${REACT_APP_BASEURL}/${id}`, "detail")
   
 
   //showData es una funcion que se encarga de renderizar los datos del producto

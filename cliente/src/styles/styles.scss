@@ -7,11 +7,11 @@
 @import './components/categories';
 @import './components/item';
 @import './components/spinner';
+@import './components/errorMessage';
 
 //LAYAOUT STYLES
 @import './layouts/mainLayout';
 
 //SCREEN STYLES
 @import './screens/itemDescription';
-@import './screens/listScreen';
 @import './screens/homeScreen';
